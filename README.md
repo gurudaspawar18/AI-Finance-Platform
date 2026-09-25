@@ -1,376 +1,479 @@
 # AI-Powered Personal Finance & Expense Intelligence Platform
 
-A full-stack personal finance management application that helps users track expenses, analyze spending patterns, automatically categorize expenses using Machine Learning, and generate spending insights and predictions.
+A full-stack personal finance web application that helps users track expenses, analyze spending patterns, receive automated financial insights, and predict future spending using machine learning.
+
+## Live Demo
+
+**[Live Application](https://ai-finance-platform-b0yp.onrender.com)**
+
+**[GitHub Repository](https://github.com/gurudaspawar18/AI-Finance-Platform)**
+
+---
 
 ## Overview
 
-The AI-Powered Personal Finance & Expense Intelligence Platform is a web application built using Python and Flask.
+The **AI-Powered Personal Finance & Expense Intelligence Platform** is a Flask-based web application designed to help users manage and understand their personal expenses.
 
-The application allows users to create accounts, securely log in, add and manage expenses, view financial analytics, and receive automated insights based on their spending data.
+The application allows users to create accounts, securely log in, add and manage expenses, automatically categorize expenses using machine learning, visualize spending patterns, detect unusual expenses, receive budget recommendations, and estimate future spending.
 
-Machine Learning is used for automatic expense categorization, while Linear Regression is used to estimate future monthly spending.
+The project combines:
+
+* Full-stack web development
+* Database management
+* Authentication and security
+* Machine learning
+* Data visualization
+* Automated financial insights
+
+---
+
+## Key Highlights
+
+* Secure user registration and login
+* User-specific expense management
+* Machine learning-based expense categorization
+* Spending trend analysis
+* Future spending prediction
+* Spending anomaly detection
+* Interactive dashboard with Chart.js
+* Deployed live using Render and Gunicorn
+
+---
 
 ## Features
 
 ### User Authentication
 
-- User registration and login
-- Secure password hashing
-- Session-based authentication
-- Logout functionality
-- User-specific expense data
-- Protected application routes
+* User registration
+* User login and logout
+* Password hashing
+* Session-based authentication
+* Protected application routes
+* User-specific expense data
 
 ### Expense Management
 
-- Add new expenses
-- Edit existing expenses
-- Delete expenses
-- View expense history
-- Store expense amount, description, category, and date
-- Automatic expense categorization
+* Add expenses
+* View expense history
+* Edit expenses
+* Delete expenses
+* Expense validation
+* Automatic expense categorization
 
-### Machine Learning Expense Categorization
-
-The application automatically predicts an expense category based on its description.
-
-The classification system uses:
-
-- TF-IDF Vectorization
-- Logistic Regression
-- Scikit-learn
-
-Example:
-
-Input:
-
-"Burger at restaurant"
-
-Predicted Category:
-
-"Food"
-
-### Financial Dashboard
+### Dashboard Analytics
 
 The dashboard provides:
 
-- Total expenses
-- Total number of transactions
-- Average expense
-- Spending by category
-- Monthly spending
-- AI-generated spending insight
-- Budget recommendation
-- Anomaly detection
-- Future spending prediction
+* Total spending
+* Total number of transactions
+* Average expense
+* Highest expense
+* Category-wise spending
+* Monthly spending
+* Spending charts
+* Automated spending insights
+* Budget recommendations
+* Spending anomaly detection
+* Future spending prediction
 
-### Spending Analysis
+### Machine Learning
 
-The application analyzes historical expenses to identify spending patterns.
+The application uses machine learning for:
 
-Visualizations are created using Chart.js, including:
+* Automatic expense category prediction
+* Spending prediction using Linear Regression
+* Expense text classification using TF-IDF and Logistic Regression
+* Basic spending anomaly detection
 
-- Spending by category
-- Monthly spending
-- ML spending prediction
+### Data Visualization
 
-### Anomaly Detection
+Chart.js is used to visualize:
 
-The application identifies unusually high expenses by comparing individual expenses with the user's average spending.
+* Category-wise expenses
+* Monthly spending
+* Spending prediction
 
-### Spending Prediction
-
-Linear Regression is used to estimate the next month's spending based on historical monthly expense data.
+---
 
 ## Technology Stack
 
-| Technology | Purpose |
-|---|---|
-| Python | Backend programming |
-| Flask | Web framework |
-| SQLite | Database |
-| HTML | Frontend structure |
-| CSS | User interface styling |
-| JavaScript | Frontend functionality |
-| Chart.js | Data visualization |
-| Scikit-learn | Machine Learning |
-| TF-IDF | Text feature extraction |
-| Logistic Regression | Expense classification |
-| Linear Regression | Spending prediction |
-| Werkzeug | Password hashing |
-| Python-dotenv | Environment configuration |
-| Git | Version control |
-| GitHub | Project repository |
+### Backend
+
+* Python
+* Flask
+
+### Database
+
+* SQLite
+
+### Machine Learning
+
+* Scikit-learn
+* TF-IDF Vectorization
+* Logistic Regression
+* Linear Regression
+
+### Frontend
+
+* HTML
+* CSS
+* JavaScript
+* Chart.js
+
+### Security
+
+* Werkzeug password hashing
+* Flask sessions
+* Environment variables
+* Protected routes
+* Parameterized SQL queries
+
+### Deployment
+
+* GitHub
+* Render
+* Gunicorn
+
+---
 
 ## Machine Learning
 
 ### Expense Categorization
 
-The expense categorization model follows this process:
+The application predicts an expense category based on the expense description.
 
-Expense Description
-        |
-        v
-TF-IDF Vectorization
-        |
-        v
-Logistic Regression
-        |
-        v
-Predicted Expense Category
+Example:
+
+```text
+Description: Lunch at restaurant
+Predicted Category: Food
+```
+
+The classification system uses:
+
+* `TfidfVectorizer`
+* `LogisticRegression`
 
 The trained model is stored in:
 
+```text
 expense_category_model.pkl
+```
 
 ### Spending Prediction
 
-The spending prediction system follows:
+The application uses **Linear Regression** to analyze historical monthly spending and estimate the next month's spending.
 
-Historical Monthly Expenses
-        |
-        v
-Data Preparation
-        |
-        v
-Linear Regression
-        |
-        v
-Predicted Next Month Spending
+The prediction is displayed on the dashboard together with historical spending data.
+
+### Anomaly Detection
+
+The application compares a user's highest expense with their average expense to identify potentially unusual spending.
+
+---
+
+## Application Workflow
+
+```text
+User
+  |
+  v
+Register / Login
+  |
+  v
+Dashboard
+  |
+  +----> Add Expense
+  |          |
+  |          v
+  |    ML Category Prediction
+  |          |
+  |          v
+  |    Save Expense
+  |
+  +----> Expense History
+  |          |
+  |          +----> Edit
+  |          |
+  |          +----> Delete
+  |
+  +----> Spending Analytics
+  |
+  +----> Automated Insights
+  |
+  +----> Budget Recommendation
+  |
+  +----> Anomaly Detection
+  |
+  +----> Spending Prediction
+```
+
+---
 
 ## Application Architecture
 
-User
- |
- v
-Web Browser
- |
- v
-HTML / CSS / JavaScript
- |
- v
+```text
+Frontend
+HTML + CSS + JavaScript
+        |
+        v
 Flask Application
- |
- +-------------------+
- |                   |
- v                   v
-SQLite Database    ML Models
-                       |
-                       v
-              Expense Categorization
-              Spending Prediction
+        |
+        +----------------+
+        |                |
+        v                v
+   SQLite Database   ML Models
+                         |
+                         +---- TF-IDF
+                         |
+                         +---- Logistic Regression
+                         |
+                         +---- Linear Regression
+        |
+        v
+Dashboard Analytics
+```
+
+---
 
 ## Project Structure
 
+```text
 AI-Finance-Platform/
-|
+│
 ├── app.py
+├── database.py
 ├── train_model.py
-├── finance.db
 ├── expense_category_model.pkl
+├── requirements.txt
 ├── README.md
 ├── .gitignore
-├── .env
-|
+├── .env.example
+│
 └── templates/
     ├── index.html
     ├── login.html
     ├── register.html
     ├── dashboard.html
+    ├── expenses.html
     ├── add_expense.html
-    ├── edit_expense.html
-    └── expenses.html
+    └── edit_expense.html
+```
+
+> `finance.db`, `.env`, and the virtual environment are excluded from GitHub using `.gitignore`.
+
+---
 
 ## Database
 
-The application uses SQLite to store:
+The application uses SQLite to store user and expense information.
 
-- User accounts
-- Password hashes
-- Expense records
-- User IDs associated with expenses
+### Users Table
 
-Each expense is associated with a specific user, allowing the application to keep financial data separated between users.
+Stores:
+
+* User ID
+* Username
+* Hashed password
+
+### Expenses Table
+
+Stores:
+
+* Expense ID
+* Amount
+* Category
+* Description
+* Date
+* User ID
+
+Each user's expenses are associated with their account.
+
+---
 
 ## Security
 
-The application implements basic security practices including:
+The application includes several security measures:
 
-- Password hashing using Werkzeug
-- Session-based authentication
-- User-specific database queries
-- Protected routes
-- Input validation
-- Environment-based Flask secret key
+* Passwords are stored using secure hashing.
+* User sessions are used for authentication.
+* Protected routes require login.
+* SQL queries use parameterized values.
+* User-specific queries prevent users from accessing other users' expenses.
+* Sensitive configuration is stored using environment variables.
+* `.env` is excluded from GitHub.
 
-The Flask secret key is stored in a `.env` file instead of being directly written in the source code.
+---
 
-Example:
+## Environment Variables
 
-FLASK_SECRET_KEY=your-secret-key
+Create a `.env` file locally:
 
-The `.env` file should not be uploaded to GitHub.
+```text
+FLASK_SECRET_KEY=your-secret-key-here
+```
+
+Do not commit the `.env` file to GitHub.
+
+A template is provided in:
+
+```text
+.env.example
+```
+
+---
 
 ## Installation
 
-### Requirements
-
-- Python 3.x
-- Git
-- Visual Studio Code
-- Web browser
-
 ### 1. Clone the Repository
 
-git clone YOUR_GITHUB_REPOSITORY_URL
+```bash
+git clone https://github.com/gurudaspawar18/AI-Finance-Platform.git
+```
 
 ### 2. Open the Project
 
+```bash
 cd AI-Finance-Platform
+```
 
 ### 3. Create a Virtual Environment
 
+```bash
 python -m venv venv
+```
 
 ### 4. Activate the Virtual Environment
 
-For Windows PowerShell:
+Windows PowerShell:
 
+```powershell
 venv\Scripts\Activate.ps1
+```
 
 ### 5. Install Dependencies
 
-pip install flask python-dotenv scikit-learn
+```bash
+pip install -r requirements.txt
+```
 
 ### 6. Configure Environment Variables
 
-Create a `.env` file in the project root:
+Create a `.env` file:
 
-FLASK_SECRET_KEY=your-secret-key
+```text
+FLASK_SECRET_KEY=your-secret-key-here
+```
 
 ### 7. Run the Application
 
+```bash
 python app.py
+```
 
-### 8. Open the Application
+The application will run locally at:
 
+```text
 http://127.0.0.1:5000
+```
 
-## Application Workflow
+---
 
-Register
-   |
-   v
-Login
-   |
-   v
-Add Expense
-   |
-   v
-ML Expense Categorization
-   |
-   v
-Store Expense
-   |
-   v
-Dashboard
-   |
-   +--> Spending Analysis
-   |
-   +--> AI Insight
-   |
-   +--> Budget Recommendation
-   |
-   +--> Anomaly Detection
-   |
-   +--> Spending Prediction
+## Deployment
 
-## Dashboard Analytics
+The application is deployed using:
 
-### Spending by Category
+* GitHub for source code
+* Render for hosting
+* Gunicorn as the production WSGI server
 
-Displays the distribution of expenses across different categories using a pie chart.
+Production start command:
 
-### Monthly Spending
+```bash
+gunicorn app:app
+```
 
-Displays monthly expense totals using a bar chart.
+### Live Application
 
-### ML Spending Prediction
+**[Open the Live Application](https://ai-finance-platform-b0yp.onrender.com)**
 
-Displays historical monthly spending and the estimated next month's spending.
+---
+
+## Database Initialization
+
+The application automatically creates the required database tables when the Flask application starts.
+
+This allows the application to initialize correctly when deployed on a new hosting environment.
+
+---
 
 ## Testing
 
-The application has been tested for:
+The deployed application was tested for:
 
-- User registration
-- User login
-- User logout
-- Password hashing
-- Adding expenses
-- Editing expenses
-- Deleting expenses
-- Expense history
-- Dashboard analytics
-- Automatic expense categorization
-- Spending insights
-- Budget recommendations
-- Anomaly detection
-- Spending prediction
-- Input validation
-- Multi-user data separation
-- Protected routes
+* User registration
+* User login
+* User logout
+* Database initialization
+* Adding expenses
+* Viewing expense history
+* Editing expenses
+* Deleting expenses
+* User-specific expense data
+* Dashboard functionality
+* Machine learning expense categorization
+* Spending analytics
+
+---
 
 ## Current Limitations
 
-The Machine Learning expense categorization model uses a relatively small training dataset. Therefore, predictions may not always be accurate for descriptions that are significantly different from the training examples.
+* The application currently uses SQLite.
+* Spending prediction is based on available historical spending data.
+* Anomaly detection uses a basic statistical comparison.
+* Automated insights are rule-based rather than generated by a large language model.
+* The application is intended as a portfolio project and not as professional financial advice.
 
-The spending prediction system is a basic Linear Regression implementation and is intended for project and educational purposes rather than professional financial forecasting.
-
-The financial insights and budget recommendations are analytical features and should not be considered professional financial advice.
+---
 
 ## Future Improvements
 
 Possible future improvements include:
 
-- Larger Machine Learning training dataset
-- Improved expense classification
-- Advanced spending prediction models
-- Expense search and filtering
-- CSV and PDF reports
-- Recurring expense tracking
-- Financial goal tracking
-- Advanced budget management
-- Cloud deployment
-- Mobile application
-- More advanced financial analytics
-- Automated financial reports
+* PostgreSQL database
+* Cloud-based database
+* Advanced financial forecasting
+* Improved anomaly detection
+* More advanced financial insights
+* Financial goal tracking
+* Monthly budget management
+* Expense reminders
+* Export reports as PDF/CSV
+
+---
 
 ## Project Status
 
-The project is currently a functional full-stack personal finance application with:
+**Status: Completed and Deployed**
 
-- User authentication
-- Expense management
-- Machine Learning-based categorization
-- Financial analytics
-- AI-based insights
-- Budget recommendation
-- Anomaly detection
-- Spending prediction
-- Multi-user data separation
-- Basic security and validation
+The application is currently available as a live web application.
+
+### Live Demo
+
+**https://ai-finance-platform-b0yp.onrender.com**
+
+### Source Code
+
+**[GitHub Repository](https://github.com/gurudaspawar18/AI-Finance-Platform)**
+
+---
 
 ## Author
 
-Gurudas Pawar
+**Gurudas Pawar**
 
 Computer Engineering Student
 
-GitHub: gurudaspawar18
+* **GitHub:** [gurudaspawar18](https://github.com/gurudaspawar18)
+* **LinkedIn:** [Gurudas Pawar](https://www.linkedin.com/in/gurudas-pawar-605019333/)
 
-LinkedIn: gurudas-pawar-605019333
-
-## License
-
-This project was developed for educational, learning, and portfolio purposes.
