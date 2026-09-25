@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Finance Dashboard</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            background: #111827;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            margin: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .logout {
+            background: #ef4444;
+            padding: 8px 14px;
+            border-radius: 6px;
+        }
+
+        /* MAIN */
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            margin-bottom: 5px;
+        }
+
+        .welcome p {
+            color: #666;
+        }
+
+        /* SUMMARY CARDS */
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #555;
+        }
+
+        .card .number {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* AI SECTION */
+
+        .ai-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .ai-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .ai-card h3 {
+            margin-top: 0;
+        }
+
+        .ai-card p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* CHARTS */
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .chart-card h2 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 320px;
+        }
+
+        /* QUICK ACTIONS */
+
+        .actions {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            text-decoration: none;
+            background: #2563eb;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 7px;
+        }
+
+        .button.green {
+            background: #16a34a;
+        }
+
+        .button.dark {
+            background: #374151;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .summary,
+            .ai-grid,
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <h2>AI Finance</h2>
+
+        <div class="nav-links">
+
+            <a href="/dashboard">Dashboard</a>
+
+            <a href="/add-expense">Add Expense</a>
+
+            <a href="/expenses">Expense History</a>
+
+            <a href="/logout" class="logout">Logout</a>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAIN CONTENT -->
+
+    <div class="container">
+
+        <div class="welcome">
+
+            <h1>Financial Dashboard</h1>
+
+            <p>
+                Track, analyze and understand your personal spending.
+            </p>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+
+        <div class="summary">
+
+            <div class="card">
+
+                <h3>Total Expenses</h3>
+
+                <div class="number">
+                    ₹{{ "%.2f"|format(total_expenses|default(0)) }}
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Total Transactions</h3>
+
+                <div class="number">
+                    {{ total_transactions|default(0) }}
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Average Expense</h3>
+
+                <div class="number">
+                    ₹{{ "%.2f"|format(average_expense|default(0)) }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- AI INSIGHTS -->
+
+        <div class="ai-grid">
+
+            <div class="ai-card">
+
+                <h3>🤖 AI Spending Insight</h3>
+
+                <p>
+                    {{ ai_insight|default("Add expenses to generate an AI spending insight.") }}
+                </p>
+
+            </div>
+
+
+            <div class="ai-card">
+
+                <h3>💰 AI Budget Recommendation</h3>
+
+                <p>
+                    {{ budget_message|default("Add expenses to generate a budget recommendation.") }}
+                </p>
+
+            </div>
+
+
+            <div class="ai-card">
+
+                <h3>⚠️ AI Anomaly Detection</h3>
+
+                <p>
+                    {{ anomaly_message|default("No anomaly information available.") }}
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- CHARTS -->
+
+        <div class="chart-grid">
+
+
+            <!-- CATEGORY CHART -->
+
+            <div class="chart-card">
+
+                <h2>Spending by Category</h2>
+
+                <div class="chart-container">
+
+                    <canvas id="categoryChart"></canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- MONTHLY CHART -->
+
+            <div class="chart-card">
+
+                <h2>Monthly Spending</h2>
+
+                <div class="chart-container">
+
+                    <canvas id="monthlyChart"></canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- ML PREDICTION -->
+
+            <div class="chart-card">
+
+                <h2>ML Spending Prediction</h2>
+
+                <div class="chart-container">
+
+                    <canvas id="predictionChart"></canvas>
+
+                </div>
+
+                <p>
+                    {{ prediction_message|default("Add expenses from at least two different months to generate a prediction.") }}
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="actions">
+
+            <h2>Quick Actions</h2>
+
+            <div class="buttons">
+
+                <a href="/add-expense" class="button">
+                    Add Expense
+                </a>
+
+                <a href="/expenses" class="button green">
+                    View Expenses
+                </a>
+
+                <a href="/logout" class="button dark">
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        /*
+         * Flask data
+         *
+         * default([]) prevents an Undefined value
+         * from being sent to JavaScript.
+         */
+
+        const categories = {{ categories|default([])|tojson }};
+        const categoryAmounts = {{ category_amounts|default([])|tojson }};
+
+        const months = {{ months|default([])|tojson }};
+        const monthlyAmounts = {{ monthly_amounts|default([])|tojson }};
+
+        const predictionMonths = {{ prediction_months|default([])|tojson }};
+        const predictionAmounts = {{ prediction_amounts|default([])|tojson }};
+
+
+        // -----------------------------------
+        // CATEGORY PIE CHART
+        // -----------------------------------
+
+        const categoryCanvas =
+            document.getElementById("categoryChart");
+
+        if (categoryCanvas) {
+
+            new Chart(categoryCanvas, {
+
+                type: "pie",
+
+                data: {
+
+                    labels: categories,
+
+                    datasets: [{
+
+                        label: "Spending",
+
+                        data: categoryAmounts
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false
+
+                }
+
+            });
+
+        }
+
+
+        // -----------------------------------
+        // MONTHLY BAR CHART
+        // -----------------------------------
+
+        const monthlyCanvas =
+            document.getElementById("monthlyChart");
+
+        if (monthlyCanvas) {
+
+            new Chart(monthlyCanvas, {
+
+                type: "bar",
+
+                data: {
+
+                    labels: months,
+
+                    datasets: [{
+
+                        label: "Monthly Spending",
+
+                        data: monthlyAmounts
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero: true
+
+                        }
+
+                    }
+
+                }
+
+            });
+
+        }
+
+
+        // -----------------------------------
+        // ML PREDICTION CHART
+        // -----------------------------------
+
+        const predictionCanvas =
+            document.getElementById("predictionChart");
+
+        if (predictionCanvas) {
+
+            new Chart(predictionCanvas, {
+
+                type: "bar",
+
+                data: {
+
+                    labels: predictionMonths,
+
+                    datasets: [{
+
+                        label: "Spending Prediction",
+
+                        data: predictionAmounts
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero: true
+
+                        }
+
+                    }
+
+                }
+
+            });
+
+        }
+
+    </script>
+
+</body>
+
+</html>
