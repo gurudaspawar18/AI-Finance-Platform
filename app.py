@@ -38,6 +38,62 @@ def get_db_connection():
 
 
 # -----------------------------------
+# INITIALIZE DATABASE
+# -----------------------------------
+
+def initialize_database():
+
+    connection = get_db_connection()
+
+    # Create users table
+    connection.execute(
+        """
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL
+        )
+        """
+    )
+
+    # Create expenses table
+    connection.execute(
+        """
+        CREATE TABLE IF NOT EXISTS expenses (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            amount REAL NOT NULL,
+            category TEXT NOT NULL,
+            description TEXT NOT NULL,
+            date TEXT NOT NULL,
+            user_id INTEGER
+        )
+        """
+    )
+
+    # Check whether user_id already exists
+    columns = connection.execute(
+        "PRAGMA table_info(expenses)"
+    ).fetchall()
+
+    column_names = [column["name"] for column in columns]
+
+    if "user_id" not in column_names:
+        connection.execute(
+            """
+            ALTER TABLE expenses
+            ADD COLUMN user_id INTEGER
+            """
+        )
+
+    connection.commit()
+    connection.close()
+
+
+# Initialize database when application starts
+initialize_database()
+
+
+# -----------------------------------
 # LOGIN REQUIRED FUNCTION
 # -----------------------------------
 
@@ -195,13 +251,11 @@ def add_expense():
         if date == "":
             return "Date cannot be empty."
 
-        # Convert amount into number
         try:
             amount = float(amount_text)
         except ValueError:
             return "Amount must be a valid number."
 
-        # Check amount
         if amount <= 0:
             return "Amount must be greater than 0."
 
